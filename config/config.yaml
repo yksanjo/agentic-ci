@@ -1,0 +1,110 @@
+# Agentic CI Configuration
+# CI that understands context, not just commands
+
+# LLM Configuration
+llm:
+  # Provider: ollama, openai, anthropic, lm_studio
+  provider: "ollama"
+  model: "codellama:7b"
+  base_url: "http://localhost:11434"
+  # api_key: ""  # Set via AGENTIC_CI_API_KEY env var
+  temperature: 0.2
+  max_tokens: 2000
+  timeout: 60.0
+
+# Risk Assessment
+risk:
+  # Paths considered high-risk
+  critical_paths:
+    - "src/core/"
+    - "src/api/"
+    - "config/"
+    - "lib/"
+    - "database/"
+    - "migrations/"
+    - "security/"
+    - "auth/"
+
+  # File patterns that are high-risk
+  high_risk_patterns:
+    - "*.sql"
+    - "*.env*"
+    - "*config*"
+    - "*secret*"
+    - "*auth*"
+    - "package.json"
+    - "requirements.txt"
+
+  # Risk score weights
+  weights:
+    file_criticality: 0.30
+    change_complexity: 0.25
+    historical_risk: 0.20
+    semantic_risk: 0.15
+    dependency_risk: 0.10
+
+# Test Prediction
+tests:
+  # Test directory patterns
+  directories:
+    - "tests/"
+    - "__tests__/"
+    - "spec/"
+    - "test/"
+
+  # Source to test mapping patterns
+  mappings:
+    "src/(.+)\\.py$":
+      - "tests/test_\\1.py"
+      - "tests/\\1_test.py"
+    "src/(.+)\\.ts$":
+      - "__tests__/\\1.test.ts"
+      - "\\1.spec.ts"
+    "src/(.+)\\.js$":
+      - "__tests__/\\1.test.js"
+      - "\\1.spec.js"
+
+# Optimizer Settings
+optimizer:
+  # Failure rate to consider test flaky
+  flaky_threshold: 0.10
+
+  # Failure rate to auto-quarantine
+  quarantine_threshold: 0.30
+
+  # Max test history to keep per test
+  max_history_per_test: 100
+
+  # Max job history to keep
+  max_job_history: 500
+
+# Pattern Store
+storage:
+  # Path for persisting learned patterns
+  path: "./data/patterns"
+  auto_persist: true
+
+# API Configuration
+api:
+  host: "0.0.0.0"
+  port: 8080
+  debug: false
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://localhost:8080"
+
+# GitHub Integration
+github:
+  # Webhook secret (set via GITHUB_WEBHOOK_SECRET env var)
+  # webhook_secret: ""
+
+  # Status check context
+  status_context: "agentic-ci"
+
+  # Comment on PRs
+  comment_on_pr: true
+
+# Logging
+logging:
+  level: "INFO"
+  format: "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>"
