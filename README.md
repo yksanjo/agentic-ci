@@ -1,5 +1,12 @@
 # agentic-ci
 
+Production-grade project scaffold focused on reliability, maintainability, and fast onboarding.
+
+[![CI](https://img.shields.io/github/actions/workflow/status/yksanjo/agentic-ci/ci.yml?branch=main&label=ci)](https://github.com/yksanjo/agentic-ci/actions)
+![License](https://img.shields.io/github/license/yksanjo/agentic-ci)
+![Last Commit](https://img.shields.io/github/last-commit/yksanjo/agentic-ci)
+![Repo Size](https://img.shields.io/github/repo-size/yksanjo/agentic-ci)
+
 ## Detailed Description
 
 agentic-ci is maintained as an industry-grade software project with production-ready engineering practices.  
